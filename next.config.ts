@@ -192,17 +192,6 @@ const nextConfig: NextConfig = {
         destination: '/:path*',
         permanent: true,
       },
-      // Typo & crawler error cleanup
-      {
-        source: '/año',
-        destination: '/',
-        permanent: true,
-      },
-      {
-        source: '/$',
-        destination: '/',
-        permanent: true,
-      },
     ];
   },
 };
