@@ -15,7 +15,9 @@ CineRename 中的每个重命名预设都有一种**语言**模式：历史悠�
 {title} [{resolution} {video_codec}]
 ```
 
-可用变量：`{title}`, `{year}`, `{season}`, `{episode}`, `{absolute_episode}`, `{episode_title}`, `{resolution}`, `{source}`, `{video_codec}`, `{audio_codec}`, `{dynamic_range}`, `{bit_depth}`。
+可用变量：
+- **核心 token**：`{title}`, `{year}`, `{season}`, `{episode}`, `{absolute_episode}`, `{episode_title}`, `{tmdb_id}`, `{tvdb_id}`, `{imdb_id}`, `{plex}`, `{plex.id}`
+- **高级 token**：`{resolution}`, `{source}`, `{video_codec}`, `{audio_codec}`, `{audio_language}`, `{dynamic_range}`, `{bit_depth}`
 
 ::: tip 导入 legacy 格式
 **Import legacy format** 按钮可以把常见 token 风格模式（`{n} ({y})/{n} - {s00e00} - {t}`）转换成 CineRename 模式。`${...}` 块和自定义条件会被标记为需要人工检查，也可以改写为 JavaScript 模式。
@@ -36,10 +38,11 @@ CineRename 中的每个重命名预设都有一种**语言**模式：历史悠�
 ```text
 title, year, season, episode, absolute_episode,
 episode_title, resolution, source, video_codec,
-audio_codec, dynamic_range, bit_depth, media_kind
+audio_codec, audio_language, dynamic_range, bit_depth,
+tmdb_id, tvdb_id, imdb_id, plex, plex_id, media_kind
 ```
 
-数值类型（`year`, `season`, `episode`, `absolute_episode`, `bit_depth`）是**数字 (numbers)**。其余的是**字符串 (strings)**，如果未提供则为 `null`。
+数值类型（`year`, `season`, `episode`, `absolute_episode`）是**数字 (numbers)**（或 `null`）。`media_kind` 为 `"movie"`、`"series"` 或 `"anime"`。其余变量（包括 `bit_depth`，例如 `"10-bit"`）均为**字符串 (strings)**，如果未提供则为 `null`。
 
 ### 变量的典型值
 
@@ -121,10 +124,10 @@ QuickJS 沙盒**不暴露任何 I/O API**：没有 `fetch`，没有 `require`，
 | `{vf}` | `resolution` |
 | `{vc}` | `video_codec` |
 | `{ac}` | `audio_codec` |
-| `${audio.lang == 'fr' ? 'VF' : 'VO'}` | `(audio_codec === 'fr' ? 'VF' : 'VO')` ⚠️ 注意：`audio_codec` 是编解码器，不是语言 — 目前暂未暴露音频语言 |
+| `${audio.lang == 'fr' ? 'VF' : 'VO'}` | `(audio_language === 'fr' ? 'VF' : 'VO')` |
 | `{n.replaceAll(/X/, 'Y')}` | `title.replace(/X/g, 'Y')` |
 | `{n.startsWith('The ') ? n.replaceFirst('^The ', '') + ', The' : n}` | `title.startsWith('The ') ? title.replace(/^The /, '') + ', The' : title` |
 
 ::: warning 未暴露的字段
-某些媒体字段（音频语言，码率，帧率，音频通道数）目前尚未暴露给 CineRename 的 JS 沙盒。如果您需要它们，请通过电子邮件与我们联系，可以将它们添加到 `RenameTemplateContext` 中。
+某些媒体技术字段（整体码率，帧率，音频声道数）目前尚未暴露给 CineRename 的 JS 沙盒。如果您需要它们，请通过电子邮件与我们联系，可以将它们添加到 `RenameTemplateContext` 中。
 :::

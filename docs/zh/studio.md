@@ -35,23 +35,29 @@ CineRename 使用多通道启发式算法：
 | **Tokens (占位符)** | 简单的替换模式：`{title} - S{season}E{episode} - {episode_title}` — 涵盖了 95% 的用例。包含 legacy 格式导入器，可迁移现有 token 风格模式。 |
 | **JavaScript** | 高级模式：三元运算符、正则表达式、闭包、字符串操作。内置的 QuickJS 引擎快速且沙盒化。请参阅 [JavaScript 模板](/zh/templates)。 |
 
-在两种模式下均可使用的变量：
+可用变量：
 
-| 变量 | 描述 |
-| --- | --- |
-| `{title}` / `title` | 媒体标题 |
-| `{media_kind}` / `media_kind` | 类型 (`movie`, `episode` 或 `anime`) |
-| `{year}` / `year` | 发行年份 |
-| `{season}` / `season` | 季号 (在 Tokens 模式下补零) |
-| `{episode}` / `episode` | 集号 (在 Tokens 模式下补零) |
-| `{absolute_episode}` / `absolute_episode` | 绝对集号 (动漫) |
-| `{episode_title}` / `episode_title` | 剧集标题 |
-| `{resolution}` / `resolution` | 分辨率 (`1080p`, `4K`, `720p`…) |
-| `{source}` / `source` | 片源 (`BluRay`, `WEB-DL`, `HDTV`…) |
-| `{video_codec}` / `video_codec` | 视频编解码器 (`x265`, `HEVC`, `AV1`…) |
-| `{audio_codec}` / `audio_codec` | 音频编解码器 (`DTS-HD`, `Atmos`…) |
-| `{dynamic_range}` / `dynamic_range` | 动态范围 (`HDR10`, `DV`…) |
-| `{bit_depth}` / `bit_depth` | 位深 (`8bit`, `10bit`…) |
+| Tokens (占位符) | JavaScript | 描述 |
+| --- | --- | --- |
+| `{title}` | `title` | 媒体标题 |
+| `{year}` | `year` | 发行年份 |
+| `{season}` | `season` | 季号 (在 Tokens 模式下补零) |
+| `{episode}` | `episode` | 集号 (在 Tokens 模式下补零) |
+| `{absolute_episode}` | `absolute_episode` | 绝对集号 (在 Tokens 模式下补零) |
+| `{episode_title}` | `episode_title` | 剧集标题 |
+| `{tmdb_id}` | `tmdb_id` | TMDb 唯一标识符 |
+| `{tvdb_id}` | `tvdb_id` | TheTVDB 唯一标识符 |
+| `{imdb_id}` | `imdb_id` | IMDb 唯一标识符 |
+| `{plex}` | `plex` | Plex 标准命名规范 |
+| `{plex.id}` | `plex_id` | 包含媒体 ID 的 Plex 标准命名 |
+| `{resolution}` | `resolution` | 分辨率 (`1080p`, `2160p`, `720p`…) |
+| `{source}` | `source` | 片源 (`BluRay`, `WEB-DL`, `HDTV`…) |
+| `{video_codec}` | `video_codec` | 视频编解码器 (`x264`, `x265`, `AV1`…) |
+| `{audio_codec}` | `audio_codec` | 音频编解码器 (`AAC`, `AC3`, `EAC3`, `DTS`…) |
+| `{audio_language}` | `audio_language` | 音频语言 (`fr`, `en`, `ja`…) |
+| `{dynamic_range}` | `dynamic_range` | 动态范围 (`SDR`, `HDR10`, `Dolby Vision`…) |
+| `{bit_depth}` | `bit_depth` | 位深 (`8-bit`, `10-bit`…) |
+| — | `media_kind` | JS 媒体分类 (`"movie"`, `"series"` 或 `"anime"`) |
 
 ::: tip 兼容 Plex
 默认预设针对 Plex 和 Jellyfin 进行了校准。如果您更改它，请使用您的媒体库扫描器验证文件是否仍然能被正确识别。

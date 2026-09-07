@@ -31,7 +31,7 @@ En **Preferencias → Automatización**:
 
 ## Iniciar el pipeline
 
-Tres formas:
+Cuatro formas:
 
 1. **Desde Studio** — botón **Iniciar pipeline** en los archivos cargados.
 2. **Desde el CLI** — `cinerename auto /ruta --to /Plex/...` (ver [CLI](/es/cli)).
@@ -76,14 +76,15 @@ Si vigilas una carpeta donde los torrents escriben durante la descarga (`*.part`
 2. CineRename para Mac, ejecutándose en segundo plano, vigila esta carpeta
 3. El pipeline automático mueve los archivos limpios a `~/Movies/Plex/...`
 
-## Logs
+## Logs y soporte
 
-Todos los eventos del pipeline se escriben en:
+Todos los eventos del pipeline y de fondo se registran en los logs estándar de CineRename:
 
-| OS | Ruta |
+| Sistema / Modo | Directorio de logs |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\logs\auto-pipeline.log` |
-| macOS | `~/Library/Application Support/CineRename/logs/auto-pipeline.log` |
-| Linux | `~/.config/CineRename/logs/auto-pipeline.log` |
+| Windows (Escritorio) | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (Escritorio) | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (Escritorio) | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | Salida estándar / redirección por shell (ej. `>> /var/log/cinerename.log 2>&1`) |
 
-Usa **Preferencias → Soporte → Copiar logs** para copiar una ventana de tiempo precisa cuando informes de un problema. En CLI/headless, redirige stdout/stderr a tu propio archivo de log si lo necesitas.
+En la aplicación de escritorio, puedes acceder directamente a través de **Preferencias → Soporte → Copiar logs** o **Mostrar carpeta de logs** para inspeccionar la actividad reciente o informar de un problema. En CLI/headless, redirige stdout/stderr a tu archivo de log persistente preferido.

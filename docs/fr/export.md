@@ -6,32 +6,47 @@ CineRename ne se contente pas de renommer vos fichiers, il vous permet égalemen
 
 Dans le **Studio**, une fois que vous avez simulé ou validé un renommage, vous pouvez cliquer sur le bouton **Exporter le rapport** situé dans la barre d'outils.
 
-Le fichier généré contient l'historique exact des modifications, formaté au choix :
+Le fichier généré contient l'aperçu exact de la simulation et des modifications, formaté au choix :
 
-- **CSV** (Comma-Separated Values) : Parfait pour ouvrir dans Excel ou Google Sheets.
-- **JSON** : Idéal si vous souhaitez automatiser un script qui lit le résultat du renommage.
+- **CSV** (Comma-Separated Values) : Parfait pour ouvrir dans Excel ou Google Sheets. Contient les colonnes : `status`, `source_path`, `current_name`, `suggested_name`, `target_path`, `media_kind`, `detected_kind`, `source_label`, `confidence`, `template_name`, `warnings`, `error_message`.
+- **JSON** : Objet structuré avec `generatedAt`, `batchId`, `summary` (`totalItems`, `readyCount`, `reviewCount`, `blockedCount`), et `items`.
+- **Markdown** (`.md`) : Tableau formaté avec résumé du lot, totaux et indicateurs de statut.
 
-Chaque ligne de l'export contient :
-- Le chemin d'origine absolu (`original_path`)
-- Le nouveau nom de fichier (`new_filename`)
-- Le statut (`renamed`, `ignored`, `conflict`)
-- Les métadonnées détectées (ID TheTVDB, résolution, codec)
+Statuts des correspondances :
+- `ready` : correspondance sûre prête à être appliquée
+- `review` : confiance faible ou ambiguë nécessitant confirmation
+- `blocked` : erreur de validation, conflit ou chemin impossible à résoudre
 
 ### Exemple de rapport JSON
 
 ```json
-[
-  {
-    "original_path": "/Users/kirito/Downloads/Breaking.Bad.S01E01.mkv",
-    "new_filename": "Breaking Bad (2008) - S01E01 - Pilot.mkv",
-    "status": "renamed",
-    "metadata": {
-      "tvdb_id": 81189,
-      "resolution": "1080p",
-      "video_codec": "x264"
+{
+  "generatedAt": "2026-09-07T10:00:00Z",
+  "batchId": "preview-20260907-001",
+  "summary": {
+    "totalItems": 1,
+    "readyCount": 1,
+    "reviewCount": 0,
+    "blockedCount": 0
+  },
+  "items": [
+    {
+      "itemId": "item-1",
+      "status": "ready",
+      "sourcePath": "/downloads/Breaking.Bad.S01E01.mkv",
+      "currentName": "Breaking.Bad.S01E01.mkv",
+      "suggestedName": "Breaking Bad - S01E01 - Pilot.mkv",
+      "targetPath": "/media/Series/Breaking Bad/Season 01/Breaking Bad - S01E01 - Pilot.mkv",
+      "mediaKind": "series",
+      "detectedKind": "series_episode",
+      "sourceLabel": "TheTVDB",
+      "confidence": 98,
+      "templateName": "Default Series",
+      "warnings": [],
+      "errorMessage": null
     }
-  }
-]
+  ]
+}
 ```
 
 ## Exporter une liste d'épisodes (Planning)

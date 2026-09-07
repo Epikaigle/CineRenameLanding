@@ -58,9 +58,9 @@ It prompts you to keep the best version. No deletion without validation. See [Du
 
 ## Can CineRename work 100% offline?
 
-Yes and no. The application itself (the interface, smart filename parsing via QuickJS, history, local duplicate cleaning) works without an internet connection.
+Yes and no. The application itself (the interface, native Rust filename parsing, JavaScript template evaluation via QuickJS, history, local duplicate cleaning) works completely without an internet connection.
 
-However, the matching features (fetching official titles, IDs and episode numbers) require querying the configured metadata provider. Without internet, CineRename will clean the filename via its internal parser, but it won't be able to guarantee the full official title. Downloading subtitles is, of course, impossible offline.
+However, the matching features (fetching official titles, IDs and episode numbers) require querying the configured metadata provider. Without internet, CineRename will clean the filename via its native internal parser, but it won't be able to guarantee the full official title. Downloading subtitles is, of course, impossible offline.
 
 ## What happens if TheTVDB / OpenSubtitles is down?
 

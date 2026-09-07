@@ -16,26 +16,30 @@ You can **pause** a folder (the watcher stops but the config remains) or **remov
 
 When a new media file (supported video extensions + subtitles) appears in an active folder:
 
-1. The disk watcher (based on `notify` on the Rust side) detects the event
-2. A debouncing of **1.5 s** is applied — useful when a file is still being written by a downloader
-3. The new paths are sent to the Studio as a normal import (equivalent to a drag-and-drop)
-4. If the **Automation** trigger is active, the pipeline can run after import
+1. The disk watcher (based on `notify` on the Rust side) detects the event.
+2. A debouncing of **1.5 s** is applied, followed by automated file stability checks (monitoring size and modification timestamps) to avoid reading files that are still being written by a downloader.
+3. The new paths are sent to the Studio as a normal import (equivalent to a drag-and-drop).
+4. If the **Automation** trigger is active, the pipeline can run after import.
 5. A status notification confirms: *"3 new file(s) detected in 'Downloads' — imported to Studio."*
 
 ## Alternative for Headless Servers (NAS)
 
 For continuous monitoring on a **NAS without a graphical interface (GUI)**, the desktop app's watcher is not suitable.
 
-The official solution is to use the CineRename CLI coupled with a Cron task:
+The official solution is to use the CineRename headless CLI coupled with a Cron task or the built-in `schedule` command:
 
 1. Connect via SSH to your NAS.
 2. Edit the cron file: `crontab -e`
 3. Add a line to check the folder every 5 minutes:
    ```bash
-   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --quiet
+   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --json >> /var/log/cinerename.log 2>&1
+   ```
+   Or run the daemon scheduler directly (e.g. inside Docker or a systemd service):
+   ```bash
+   cinerename schedule /mnt/Downloads --every 5m --to /mnt/Library --json
    ```
 
-This method is much more robust for 24/7 servers, as it silently and autonomously launches processing at regular intervals. See [Command Line (CLI)](/cli) for more details.
+This method is much more robust for 24/7 servers, as it autonomously launches processing at regular intervals. See [Command Line (CLI)](/cli) for more details.
 
 ## Limitations
 

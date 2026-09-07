@@ -4,21 +4,28 @@ Todo lo que CineRename modifica en tu disco es **rastreable** y **reversible**. 
 
 ## Qué se registra
 
-Con cada operación (renombrado, movimiento, eliminación de duplicados, descarga de subtítulos), CineRename registra:
+Para cada lote de renombrado ejecutado en Studio, la CLI o el pipeline de automatización, CineRename registra:
 
-- **Fecha y hora** exactas
-- **Tipo de operación** (rename / move / subtitle-fetch / duplicate-delete / auto-pipeline)
-- **Antes / Después** completo (rutas de origen, rutas de destino, tamaño, hash opcional)
-- **Estado** (éxito / error / cancelado)
-- **Origen** (Studio / pipeline de automatización / CLI)
+- **Fecha y hora** precisas (inicio, finalización, reversión)
+- **Estado del lote** (`running`, `applied`, `failed`, `undone`)
+- **Antes / Después** completo para cada archivo (ruta y nombre original, ruta y nombre renombrado, tipo de medio)
+- La **plantilla de renombrado** aplicada
+- **Disponibilidad para deshacer** y estado de validación
 
-Los datos se almacenan localmente en una base de datos **SQLite** (a través de `rusqlite` en el lado de Rust). Ningún dato se envía a la nube.
+Los datos se almacenan localmente en una base de datos **SQLite** (a través de `rusqlite` en el núcleo de Rust). No se envía ningún dato a servidores externos ni a la nube.
 
-## Pestañas del historial
+::: info Qué no se incluye en el Historial
+La tabla SQLite de historial rastrea exclusivamente lotes de renombrado y traslado. Las descargas de subtítulos y las eliminaciones de duplicados son acciones independientes que no se registran como lotes reversibles.
+:::
 
-- **Hoy** — operaciones del día
-- **Reciente** — últimos 7 días
-- **Todo** — historial completo (filtrable por fecha, por carpeta, por tipo)
+## Organización y visualización del Historial
+
+La pantalla de Historial ofrece una lista virtualizada unificada agrupada cronológicamente:
+
+- **Agrupado por fecha** — secciones para Hoy, Ayer y fechas anteriores
+- **Búsqueda en tiempo real** — filtra lotes y entradas por nombre o ruta de archivo original o renombrado
+- **Filtro de estado** — muestra todos los lotes, solo los restaurables, los ya revertidos o los fallidos
+- **Ordenación** — orden cronológico (más reciente o más antiguo primero)
 
 ## Deshacer (undo)
 

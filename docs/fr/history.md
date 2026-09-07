@@ -4,21 +4,28 @@ Tout ce que CineRename modifie sur votre disque est **traçable** et **réversib
 
 ## Ce qui est enregistré
 
-À chaque opération (renommage, déplacement, suppression de doublons, téléchargement de sous-titres), CineRename enregistre :
+Pour chaque lot de renommage exécuté dans le Studio, le CLI ou le pipeline d'automatisation, CineRename enregistre :
 
-- **Date et heure** précises
-- **Type d'opération** (rename / move / subtitle-fetch / duplicate-delete / auto-pipeline)
-- **Avant / Après** complets (chemins source, chemins cible, taille, hash optionnel)
-- **Statut** (succès / échec / annulé)
-- **Source** (Studio / pipeline d'automatisation / CLI)
+- **Date et heure** précises (début, fin, annulation)
+- **Statut du lot** (`running`, `applied`, `failed`, `undone`)
+- **Avant / Après** complets pour chaque fichier (chemin et nom d'origine, chemin et nom renommés, type de média)
+- Le **modèle de renommage** appliqué
+- La **disponibilité de l'annulation** et l'état de validation
 
-Les données sont stockées localement dans une base **SQLite** (via `rusqlite` côté Rust). Aucune donnée n'est envoyée en cloud.
+Les données sont stockées localement dans une base **SQLite** (via `rusqlite` dans le cœur Rust). Aucune donnée n'est envoyée vers des serveurs externes ou le cloud.
 
-## Onglets de l'historique
+::: info Ce qui ne figure pas dans l'Historique
+La table SQLite d'historique suit exclusivement les lots de renommage et de déplacement. Les téléchargements de sous-titres et les suppressions de doublons sont des actions distinctes non suivies sous forme de lots annulables.
+:::
 
-- **Aujourd'hui** — opérations du jour
-- **Récent** — 7 derniers jours
-- **Tout** — historique complet (filtrable par date, par dossier, par type)
+## Organisation de la vue Historique
+
+L'écran Historique propose une liste virtualisée unifiée regroupée chronologiquement :
+
+- **Regroupement par date** — sections Aujourd'hui, Hier et dates antérieures
+- **Recherche en temps réel** — filtrage des lots et entrées par nom ou chemin de fichier d'origine ou renommé
+- **Filtre de statut** — afficher tous les lots, uniquement les restaurables, les déjà annulés ou les échecs
+- **Tri** — ordre chronologique (du plus récent ou du plus ancien)
 
 ## Annuler (undo)
 

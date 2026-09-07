@@ -40,16 +40,24 @@ cinerename auto --help
 | `cinerename history list` | Headless | 列出最近的重命名批次 |
 | `cinerename history undo-last` | Headless | 撤销最新可恢复批次 |
 | `cinerename history undo <batch-id>` | Headless | 撤销指定批次 |
+| `cinerename history export --output <路径>` | Headless | 导出历史记录到 CSV、JSON 或 Markdown |
 | `cinerename audit <路径> --profile plex` | Headless | 审计 Plex/Jellyfin/Kodi 风格媒体库 |
 | `cinerename nfo <路径> --profile kodi --write` | Headless | 显式生成 NFO 元数据 |
 | `cinerename subtitles convert <文件> --to srt` | Headless | 转换字幕格式 |
 | `cinerename subtitles shift <文件> --ms 750` | Headless | 对字幕应用固定偏移 |
 | `cinerename subtitles drift <文件> --first-ms 0 --last-ms 1250` | Headless | 应用简单线性 drift 修正 |
 | `cinerename download-client test qbittorrent --url <url>` | Headless | 测试下载客户端端点 |
+| `cinerename download-client import <客户端> --url <url>` | Headless | 模拟或执行下载客户端导入 |
 | `cinerename pre-arr preview <路径> --profile sonarr` | Headless | 准备 Sonarr/Radarr staging 预览 |
+| `cinerename pre-arr apply <路径> --to <staging>` | Headless | 将安全匹配的媒体移动到 staging 目录 |
 | `cinerename benchmark large-import --files 2000` | Headless | 运行受控本地假导入 benchmark |
-| `cinerename web --host 0.0.0.0 --port 8787` | Headless | 启动本地 WebUI |
+| `cinerename web --host 127.0.0.1 --port 8787 --allowed-root <dir>` | Headless | 启动本地 WebUI |
 | `cinerename tui <路径>` | Headless | 启动终端 UI |
+
+全局标志：
+- `--json`：输出结构化 JSON（调度器模式下输出 JSON Lines）
+- `--config-dir <dir>`：覆盖 CineRename 配置目录（Headless）
+- `--cache-dir <dir>`：覆盖 CineRename 缓存目录（Headless）
 
 ## Desktop 与 Headless 示例
 
@@ -106,17 +114,27 @@ cinerename subtitles drift movie.zh.srt --first-ms 0 --last-ms 1250 --output mov
 
 这些命令只在本地调整字幕文件。它们不保证无需预览即可获得完美音频同步。
 
-## Headless：WebUI Token
+## Headless：WebUI 配置与安全
 
-WebUI API 受 token 保护。如果未提供 token，CineRename 会打印包含 `#token=...` 的临时 URL。
+WebUI API 始终受 token 保护，并且必须通过 `--allowed-root <DIR>` 限制文件系统访问范围（至少指定一个）。
 
-对于 NAS 或 Docker，请使用自己的长 token：
+在本地环回接口 (`127.0.0.1`) 上，如果未配置 token，CineRename 会自动生成一个随机 token 并输出到 stderr（绝不会出现在 URL 或 JSON 输出中）。
+
+WebUI 仅使用纯 HTTP。如果绑定到非本地环回地址 (`0.0.0.0`)，必须显式传递 `--insecure-http`（且应置于 HTTPS 反向代理之后），并由管理员提供至少 32 字节的 token（通过 `--token-file`、`--token` 或 `CINERENAME_WEB_TOKEN` 环境变量）：
 
 ```bash
-cinerename web --host 0.0.0.0 --port 8787 --token "replace-with-a-long-random-token"
+# 本地 localhost WebUI
+cinerename web --host 127.0.0.1 --port 8787 --allowed-root /media/Library
+
+# 非环回地址（置于 HTTPS 反向代理后）
+openssl rand -hex 32 > /secure/cinerename-web.token
+chmod 600 /secure/cinerename-web.token
+cinerename web --host 0.0.0.0 --port 8787 --insecure-http \
+  --allowed-root /media/Library \
+  --token-file /secure/cinerename-web.token
 ```
 
-请保管好此 token。
+请妥善保管此 token。
 
 ## NAS Scheduler 示例
 

@@ -22,40 +22,49 @@ CineRename 会根据你使用的功能查询不同的外部提供商：
 
 1. **运行时环境变量**
    - `CINERENAME_TVDB_API_KEY`
+   - `CINERENAME_TVDB_SUBSCRIBER_PIN`
    - `CINERENAME_OPENSUBTITLES_API_KEY`
+   - `CINERENAME_OPENSUBTITLES_USERNAME`
+   - `CINERENAME_OPENSUBTITLES_PASSWORD`
+   - `CINERENAME_OPENSUBTITLES_USER_AGENT`
 2. **在“偏好设置 → 来源和字幕”中输入的值**（敏感内容会尽量保存在系统凭据库/钥匙串中）
-3. **本地配置文件夹中的 `providers.toml` 文件**
+3. **配置子目录中的 `providers/providers.toml` 文件**
 4. **应用内置的默认密钥**
 
 ## 通过 UI 配置
 
 **偏好设置 → 来源和字幕**：
 
-- TheTVDB：**API Key** 字段
+- TheTVDB：**API Key** 字段与可选的 **Subscriber PIN**
 - OpenSubtitles：**API Key** 字段 + 凭据 (username/password)，如果您有高级帐户
 
 敏感值会尽量保存在系统凭据库/钥匙串中，而不是以明文写入本地 SQLite。它们不会离开你的机器，除非发送给对应的提供商进行认证或查询。
 
 ## 通过文件配置
 
-在配置文件夹中创建（或编辑）`providers.toml` 文件：
+在配置目录的 `providers/` 子文件夹中创建（或编辑）`providers.toml` 文件：
 
-| 操作系统 | 路径 |
+| 操作系统 / 模式 | 路径 |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\providers.toml` |
-| macOS | `~/Library/Application Support/CineRename/providers.toml` |
-| Linux | `~/.config/CineRename/providers.toml` |
+| Windows (桌面版) | `%APPDATA%\com.cinerename.desktop\providers\providers.toml` |
+| macOS (桌面版) | `~/Library/Application Support/com.cinerename.desktop/providers/providers.toml` |
+| Linux (桌面版) | `~/.local/share/com.cinerename.desktop/providers/providers.toml` |
+| Headless / NAS (Linux) | `~/.config/cinerename/providers/providers.toml` |
 
 格式：
 
 ```toml
-[tvdb]
+[thetvdb]
+enabled = true
 api_key = "您的-tvdb-密钥"
+subscriber_pin = "您的-tvdb-订阅者pin"
 
 [opensubtitles]
+enabled = true
 api_key = "您的-opensubtitles-密钥"
 username = "您的-用户名"
 password = "您的-密码"
+user_agent = "CineRename"
 ```
 
 ## 自定义构建

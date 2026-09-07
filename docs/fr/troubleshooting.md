@@ -66,13 +66,14 @@ En CLI/headless, relancez la commande et redirigez la sortie terminal vers un fi
 
 ## Où sont mes données ?
 
-| OS | Dossier de config | Logs |
+| Système / Mode | Données d'application & config | Logs |
 | --- | --- | --- |
-| Windows | `%APPDATA%\CineRename\` | `%APPDATA%\CineRename\logs\` |
-| macOS | `~/Library/Application Support/CineRename/` | idem `/logs/` |
-| Linux | `~/.config/CineRename/` | idem `/logs/` |
+| Windows (Bureau) | `%APPDATA%\com.cinerename.desktop\` | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (Bureau) | `~/Library/Application Support/com.cinerename.desktop/` | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (Bureau) | `~/.local/share/com.cinerename.desktop/` | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | `~/.config/cinerename/` | Sortie standard / redirection shell |
 
-Vous pouvez supprimer ces dossiers pour repartir de zéro (perd l'historique et les presets).
+Dans l'application de bureau, vous pouvez ouvrir directement le dossier des journaux via **Préférences → Support → Afficher le dossier des logs**. Vous pouvez supprimer ces dossiers pour repartir de zéro (effacera l'historique local, le cache et les présélections).
 
 ## Je n'ai pas trouvé ma réponse
 

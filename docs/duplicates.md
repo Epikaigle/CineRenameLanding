@@ -43,16 +43,16 @@ On each row of the cluster, **right-click** opens:
 | --- | --- | --- |
 | Scan the current Studio batch | <kbd>Ctrl</kbd> + <kbd>F</kbd> | <kbd>Cmd</kbd> + <kbd>F</kbd> |
 
-## Batch deletion
+## Duplicate deletion
 
-Once your decisions are made on all clusters, the **Delete marked** button:
+When you choose to delete candidate files:
 
-1. Asks for a final confirmation
-2. Moves the files to the system trash (recoverable)
-3. Logs the operation in the **History** (to undo)
+1. CineRename displays an explicit confirmation dialog (`Permanently delete this file? This cannot be undone.`).
+2. The file is permanently deleted from the filesystem (atomically unlinked if unchanged).
+3. **Irreversible operation**: files are not moved to the OS trash/recycle bin and duplicate removals are not tracked in the rename History.
 
-::: warning Attention for NAS users
-Deletion goes through the OS trash. If the **Network Trash (SMB/CIFS)** is not enabled on your Synology or QNAP, files will be permanently deleted. Make sure to enable the "Enable Trash" option on your NAS shared folder before using batch deletion.
+::: warning Permanent deletion
+Because duplicate candidate removal directly unlinks the file from storage rather than using the operating system trash, deleted files cannot be restored from the desktop trash or undone via History. Always double-check your selection before confirming.
 :::
 
 ## Best practices

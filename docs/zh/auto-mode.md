@@ -62,14 +62,15 @@ cinerename auto /path/to/downloads --to /media/Plex --subs fr,en
 2. 后台运行的 Mac 版 CineRename 监控该文件夹
 3. 自动流水线将其移动到干净的 `~/Movies/Plex/...`
 
-## 日志
+## 日志与支持
 
-流水线的所有事件都会记录在：
+流水线及所有后台事件都会记录在 CineRename 标准应用日志中：
 
-| 操作系统 | 路径 |
+| 操作系统 / 模式 | 日志目录 |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\logs\auto-pipeline.log` |
-| macOS | `~/Library/Application Support/CineRename/logs/auto-pipeline.log` |
-| Linux | `~/.config/CineRename/logs/auto-pipeline.log` |
+| Windows (桌面版) | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (桌面版) | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (桌面版) | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | 标准输出 / 命令行重定向 (例如 `>> /var/log/cinerename.log 2>&1`) |
 
-在桌面应用中，使用 **偏好设置 → 支持 → 复制日志** 复制指定时间窗口。CLI/headless 用法可以把 stdout/stderr 重定向到自己的日志文件。
+在桌面应用中，您可以通过 **偏好设置 → 支持 → 复制日志** 或 **显示日志文件夹** 快速查看或导出诊断信息。CLI/headless 用法则可通过标准重定向持久化日志。

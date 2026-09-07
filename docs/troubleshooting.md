@@ -66,13 +66,14 @@ For CLI/headless usage, run the command again with JSON or normal terminal outpu
 
 ## Where is my data?
 
-| OS | Config folder | Logs |
+| OS / Mode | App Data & Config | Logs |
 | --- | --- | --- |
-| Windows | `%APPDATA%\CineRename\` | `%APPDATA%\CineRename\logs\` |
-| macOS | `~/Library/Application Support/CineRename/` | ditto `/logs/` |
-| Linux | `~/.config/CineRename/` | ditto `/logs/` |
+| Windows (Desktop) | `%APPDATA%\com.cinerename.desktop\` | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (Desktop) | `~/Library/Application Support/com.cinerename.desktop/` | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (Desktop) | `~/.local/share/com.cinerename.desktop/` | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | `~/.config/cinerename/` | Standard output / shell redirection |
 
-You can delete these folders to start from scratch (will lose history and presets).
+In the desktop application, you can quickly reveal the log folder by going to **Preferences → Support** and clicking **Show Logs Folder**. You can delete these folders to start from scratch (will clear local history, cache, and presets).
 
 ## I didn't find my answer
 

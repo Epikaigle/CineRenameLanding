@@ -23,40 +23,49 @@ Si plusieurs sources fournissent une clé, CineRename utilise la première trouv
 
 1. **Variable d'environnement runtime**
    - `CINERENAME_TVDB_API_KEY`
+   - `CINERENAME_TVDB_SUBSCRIBER_PIN`
    - `CINERENAME_OPENSUBTITLES_API_KEY`
+   - `CINERENAME_OPENSUBTITLES_USERNAME`
+   - `CINERENAME_OPENSUBTITLES_PASSWORD`
+   - `CINERENAME_OPENSUBTITLES_USER_AGENT`
 2. **Override saisi dans Préférences → Sources et sous-titres** (stocké dans le coffre de secrets / trousseau système quand c'est sensible)
-3. **Fichier `providers.toml`** dans le dossier de config local
+3. **Fichier `providers.toml`** dans le sous-dossier `<config-dir>/providers/`
 4. **Clé bundlée par défaut** compilée dans l'app
 
 ## Configurer via l'UI
 
 **Préférences → Sources et sous-titres** :
 
-- TheTVDB : champ **API Key**
+- TheTVDB : champ **API Key** et optionnel **Code PIN abonné**
 - OpenSubtitles : champ **API Key** + identifiants (username/password) si vous avez un compte premium
 
 Les valeurs sensibles sont stockées via le coffre de secrets / trousseau du système quand disponible, pas en clair dans la base SQLite locale. Elles ne quittent jamais votre machine sauf lorsqu'elles sont envoyées au fournisseur concerné.
 
 ## Configurer via fichier
 
-Créez (ou éditez) `providers.toml` dans le dossier de config :
+Créez (ou éditez) `providers.toml` dans le sous-dossier `providers/` de votre répertoire de configuration :
 
-| OS | Chemin |
+| Système / Mode | Chemin |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\providers.toml` |
-| macOS | `~/Library/Application Support/CineRename/providers.toml` |
-| Linux | `~/.config/CineRename/providers.toml` |
+| Windows (Bureau) | `%APPDATA%\com.cinerename.desktop\providers\providers.toml` |
+| macOS (Bureau) | `~/Library/Application Support/com.cinerename.desktop/providers/providers.toml` |
+| Linux (Bureau) | `~/.local/share/com.cinerename.desktop/providers/providers.toml` |
+| Headless / NAS (Linux) | `~/.config/cinerename/providers/providers.toml` |
 
 Format :
 
 ```toml
-[tvdb]
+[thetvdb]
+enabled = true
 api_key = "votre-clé-tvdb"
+subscriber_pin = "votre-code-pin-abonne"
 
 [opensubtitles]
+enabled = true
 api_key = "votre-clé-opensubtitles"
 username = "votre-username"
 password = "votre-password"
+user_agent = "CineRename"
 ```
 
 ## Build personnalisé

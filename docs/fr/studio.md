@@ -35,23 +35,29 @@ Configurez dans **Préférences → Modèles de nommage**. Chaque template a une
 | **Tokens** | Patterns à substitution simple : `{title} - S{season}E{episode} - {episode_title}` — couvre 95% des cas. Inclut un importeur de formats historiques pour récupérer des patterns existants. |
 | **JavaScript** | Patterns avancés : ternaires, regex, closures, manipulation de chaînes. Le moteur QuickJS embarqué est rapide et sandboxé. Voir [Templates JavaScript](/fr/templates). |
 
-Variables disponibles dans les deux modes :
+Variables disponibles :
 
-| Variable | Description |
-| --- | --- |
-| `{title}` / `title` | Titre du média |
-| `{media_kind}` / `media_kind` | Type (`movie`, `episode` ou `anime`) |
-| `{year}` / `year` | Année de sortie |
-| `{season}` / `season` | Numéro de saison (zero-padded en tokens) |
-| `{episode}` / `episode` | Numéro d'épisode (zero-padded en tokens) |
-| `{absolute_episode}` / `absolute_episode` | Numéro absolu (anime) |
-| `{episode_title}` / `episode_title` | Titre de l'épisode |
-| `{resolution}` / `resolution` | Résolution (`1080p`, `4K`, `720p`…) |
-| `{source}` / `source` | Source (`BluRay`, `WEB-DL`, `HDTV`…) |
-| `{video_codec}` / `video_codec` | Codec vidéo (`x265`, `HEVC`, `AV1`…) |
-| `{audio_codec}` / `audio_codec` | Codec audio (`DTS-HD`, `Atmos`…) |
-| `{dynamic_range}` / `dynamic_range` | Plage dynamique (`HDR10`, `DV`…) |
-| `{bit_depth}` / `bit_depth` | Profondeur de bits (`8bit`, `10bit`…) |
+| Tokens | JavaScript | Description |
+| --- | --- | --- |
+| `{title}` | `title` | Titre du média |
+| `{year}` | `year` | Année de sortie |
+| `{season}` | `season` | Numéro de saison (zero-padded en tokens) |
+| `{episode}` | `episode` | Numéro d'épisode (zero-padded en tokens) |
+| `{absolute_episode}` | `absolute_episode` | Numéro d'épisode absolu (zero-padded en tokens) |
+| `{episode_title}` | `episode_title` | Titre de l'épisode |
+| `{tmdb_id}` | `tmdb_id` | Identifiant TMDb |
+| `{tvdb_id}` | `tvdb_id` | Identifiant TheTVDB |
+| `{imdb_id}` | `imdb_id` | Identifiant IMDb |
+| `{plex}` | `plex` | Format standard Plex |
+| `{plex.id}` | `plex_id` | Format standard Plex avec identifiant média |
+| `{resolution}` | `resolution` | Résolution (`1080p`, `2160p`, `720p`…) |
+| `{source}` | `source` | Source (`BluRay`, `WEB-DL`, `HDTV`…) |
+| `{video_codec}` | `video_codec` | Codec vidéo (`x264`, `x265`, `AV1`…) |
+| `{audio_codec}` | `audio_codec` | Codec audio (`AAC`, `AC3`, `EAC3`, `DTS`…) |
+| `{audio_language}` | `audio_language` | Langue audio (`fr`, `en`, `ja`…) |
+| `{dynamic_range}` | `dynamic_range` | Plage dynamique (`SDR`, `HDR10`, `Dolby Vision`…) |
+| `{bit_depth}` | `bit_depth` | Profondeur de bits (`8-bit`, `10-bit`…) |
+| — | `media_kind` | Catégorie média en JS (`"movie"`, `"series"` ou `"anime"`) |
 
 ::: tip Plex friendly
 Le preset par défaut est calibré pour Plex et Jellyfin. Si vous changez, vérifiez avec votre scanner de bibliothèque que les fichiers sont toujours reconnus.

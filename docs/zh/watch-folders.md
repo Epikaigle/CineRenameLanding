@@ -16,26 +16,30 @@ CineRename 可以在后台监控文件夹，并且**自动将那里出现的任�
 
 当一个新的媒体文件（支持的视频扩展名 + 字幕）出现在活动的文件夹中时：
 
-1. 磁盘监控程序（在 Rust 端基于 `notify`）会检测到该事件
-2. 会应用 **1.5 秒** 的防抖动 (debouncing) 延迟 —— 这在下载器仍在写入文件时非常有用
-3. 新路径会像普通导入一样发送到 Studio（相当于拖放操作）
-4. 如果**自动化**触发器处于激活状态，流水线可以在导入后运行
+1. 磁盘监控程序（在 Rust 端基于 `notify`）会检测到该事件。
+2. 会应用 **1.5 秒** 的防抖动延迟，随后进行自动文件稳定性检查（确认文件大小和修改时间戳不再变动），以防止下载器仍在写入未完成的文件。
+3. 新路径会像普通导入一样发送到 Studio（相当于拖放操作）。
+4. 如果**自动化**触发器处于激活状态，流水线可以在导入后运行。
 5. 状态通知会确认：*“在 "Downloads" 中检测到 3 个新文件 —— 已导入到 Studio。”*
 
 ## 无头服务器 (NAS) 的替代方案
 
 为了在**没有图形界面 (GUI) 的 NAS** 上进行持续监控，桌面应用程序的监控程序并不合适。
 
-官方推荐的解决方案是使用 CineRename CLI 结合 Cron 任务：
+官方推荐的解决方案是使用 CineRename headless CLI 结合 Cron 任务或内置的 `schedule` 命令：
 
 1. 通过 SSH 连接到您的 NAS。
 2. 编辑 cron 文件：`crontab -e`
 3. 添加一行，每 5 分钟检查一次文件夹：
    ```bash
-   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --quiet
+   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --json >> /var/log/cinerename.log 2>&1
+   ```
+   或者直接运行常驻后台的调度命令（例如在 Docker 容器或 systemd 服务中）：
+   ```bash
+   cinerename schedule /mnt/Downloads --every 5m --to /mnt/Library --json
    ```
 
-这种方法对于 24/7 运行的服务器来说要强大得多，因为它可以在后台静默、自主地以固定间隔启动处理任务。有关更多详细信息，请参阅 [命令行 (CLI)](/zh/cli)。
+这种方法对于 24/7 运行的服务器来说要强大得多，因为它可以在后台以固定间隔自主启动处理任务。有关更多详细信息，请参阅 [命令行 (CLI)](/zh/cli)。
 
 ## 限制
 

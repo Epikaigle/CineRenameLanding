@@ -40,16 +40,24 @@ cinerename auto --help
 | `cinerename history list` | Headless | Lists recent rename batches |
 | `cinerename history undo-last` | Headless | Undoes the newest restorable batch |
 | `cinerename history undo <batch-id>` | Headless | Undoes a specific batch |
+| `cinerename history export --output <path>` | Headless | Exports history to CSV, JSON, or Markdown |
 | `cinerename audit <path> --profile plex` | Headless | Audits a Plex/Jellyfin/Kodi-style library |
 | `cinerename nfo <path> --profile kodi --write` | Headless | Generates NFO metadata explicitly |
 | `cinerename subtitles convert <file> --to srt` | Headless | Converts subtitle formats |
 | `cinerename subtitles shift <file> --ms 750` | Headless | Applies a fixed subtitle offset |
 | `cinerename subtitles drift <file> --first-ms 0 --last-ms 1250` | Headless | Applies a simple linear drift fix |
 | `cinerename download-client test qbittorrent --url <url>` | Headless | Tests a download-client endpoint |
+| `cinerename download-client import <client> --url <url>` | Headless | Simulates or applies download client imports |
 | `cinerename pre-arr preview <path> --profile sonarr` | Headless | Prepares a safe Sonarr/Radarr staging preview |
+| `cinerename pre-arr apply <path> --to <staging>` | Headless | Moves safe matched media to a staging directory |
 | `cinerename benchmark large-import --files 2000` | Headless | Runs a controlled fake-import benchmark |
-| `cinerename web --host 0.0.0.0 --port 8787` | Headless | Starts the local WebUI |
+| `cinerename web --host 127.0.0.1 --port 8787 --allowed-root <dir>` | Headless | Starts the local WebUI |
 | `cinerename tui <path>` | Headless | Starts the terminal UI |
+
+Global flags:
+- `--json`: Emit machine-readable JSON output (JSON Lines in scheduler mode)
+- `--config-dir <dir>`: Override the CineRename configuration directory (Headless)
+- `--cache-dir <dir>`: Override the CineRename cache directory (Headless)
 
 ## Desktop And Headless Examples
 
@@ -106,14 +114,24 @@ cinerename subtitles drift movie.fr.srt --first-ms 0 --last-ms 1250 --output mov
 
 These commands adjust subtitle files locally. They do not guarantee perfect audio synchronization without previewing the result.
 
-## Headless: WebUI Token
+## Headless: WebUI Configuration and Security
 
-The WebUI API is token-protected. If no token is provided, CineRename prints a temporary URL containing `#token=...`.
+The WebUI API is always token-protected and requires at least one `--allowed-root <DIR>` to bound filesystem access.
 
-For NAS or Docker, use your own long token:
+On loopback (`127.0.0.1`), if no token is provided, CineRename generates a random token and prints it to stderr (never in URLs or JSON output).
+
+The WebUI only serves plain HTTP. Binding to a non-loopback address (`0.0.0.0`) requires `--insecure-http` (behind an HTTPS reverse proxy) and an operator-provided token of at least 32 bytes (via `--token-file`, `--token`, or `CINERENAME_WEB_TOKEN`):
 
 ```bash
-cinerename web --host 0.0.0.0 --port 8787 --token "replace-with-a-long-random-token"
+# Localhost WebUI
+cinerename web --host 127.0.0.1 --port 8787 --allowed-root /media/Library
+
+# Non-loopback behind an HTTPS reverse proxy
+openssl rand -hex 32 > /secure/cinerename-web.token
+chmod 600 /secure/cinerename-web.token
+cinerename web --host 0.0.0.0 --port 8787 --insecure-http \
+  --allowed-root /media/Library \
+  --token-file /secure/cinerename-web.token
 ```
 
 Keep this token private.

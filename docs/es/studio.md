@@ -35,23 +35,29 @@ Configúralos en **Preferencias → Plantillas de nombrado**. Cada plantilla tie
 | **Tokens** | Patrones de sustitución simple: `{title} - S{season}E{episode} - {episode_title}` — cubre el 95% de los casos. Incluye un importador de formatos heredados para patrones existentes. |
 | **JavaScript** | Patrones avanzados: ternarios, regex, closures, manipulación de cadenas. El motor QuickJS integrado es rápido y sandboxed. Ver [Templates JavaScript](/es/templates). |
 
-Variables disponibles en ambos modos:
+Variables disponibles:
 
-| Variable | Descripción |
-| --- | --- |
-| `{title}` / `title` | Título del medio |
-| `{media_kind}` / `media_kind` | Tipo (`movie`, `episode` o `anime`) |
-| `{year}` / `year` | Año de lanzamiento |
-| `{season}` / `season` | Número de temporada (con ceros a la izquierda en tokens) |
-| `{episode}` / `episode` | Número de episodio (con ceros a la izquierda en tokens) |
-| `{absolute_episode}` / `absolute_episode` | Número absoluto (anime) |
-| `{episode_title}` / `episode_title` | Título del episodio |
-| `{resolution}` / `resolution` | Resolución (`1080p`, `4K`, `720p`…) |
-| `{source}` / `source` | Fuente (`BluRay`, `WEB-DL`, `HDTV`…) |
-| `{video_codec}` / `video_codec` | Códec de video (`x265`, `HEVC`, `AV1`…) |
-| `{audio_codec}` / `audio_codec` | Códec de audio (`DTS-HD`, `Atmos`…) |
-| `{dynamic_range}` / `dynamic_range` | Rango dinámico (`HDR10`, `DV`…) |
-| `{bit_depth}` / `bit_depth` | Profundidad de bits (`8bit`, `10bit`…) |
+| Tokens | JavaScript | Descripción |
+| --- | --- | --- |
+| `{title}` | `title` | Título del medio |
+| `{year}` | `year` | Año de lanzamiento |
+| `{season}` | `season` | Número de temporada (con ceros a la izquierda en tokens) |
+| `{episode}` | `episode` | Número de episodio (con ceros a la izquierda en tokens) |
+| `{absolute_episode}` | `absolute_episode` | Número de episodio absoluto (con ceros a la izquierda en tokens) |
+| `{episode_title}` | `episode_title` | Título del episodio |
+| `{tmdb_id}` | `tmdb_id` | Identificador TMDb |
+| `{tvdb_id}` | `tvdb_id` | Identificador TheTVDB |
+| `{imdb_id}` | `imdb_id` | Identificador IMDb |
+| `{plex}` | `plex` | Formato estándar Plex |
+| `{plex.id}` | `plex_id` | Formato estándar Plex con identificador multimedia |
+| `{resolution}` | `resolution` | Resolución (`1080p`, `2160p`, `720p`…) |
+| `{source}` | `source` | Fuente (`BluRay`, `WEB-DL`, `HDTV`…) |
+| `{video_codec}` | `video_codec` | Códec de video (`x264`, `x265`, `AV1`…) |
+| `{audio_codec}` | `audio_codec` | Códec de audio (`AAC`, `AC3`, `EAC3`, `DTS`…) |
+| `{audio_language}` | `audio_language` | Idioma de audio (`fr`, `en`, `ja`…) |
+| `{dynamic_range}` | `dynamic_range` | Rango dinámico (`SDR`, `HDR10`, `Dolby Vision`…) |
+| `{bit_depth}` | `bit_depth` | Profundidad de bits (`8-bit`, `10-bit`…) |
+| — | `media_kind` | Categoría multimedia en JS (`"movie"`, `"series"` o `"anime"`) |
 
 ::: tip Compatible con Plex
 El preset por defecto está calibrado para Plex y Jellyfin. Si lo cambias, comprueba con el escáner de tu biblioteca que los archivos sigan siendo reconocidos.

@@ -16,26 +16,30 @@ Vous pouvez **mettre en pause** un dossier (le watcher s'arrête mais la config 
 
 Quand un nouveau fichier média (extensions vidéo supportées + sous-titres) apparaît dans un dossier actif :
 
-1. Le watcher disque (basé sur `notify` côté Rust) détecte l'événement
-2. Un débouncage de **1.5 s** est appliqué — utile quand un fichier est encore en cours d'écriture par un téléchargeur
-3. Les nouveaux chemins sont envoyés au Studio comme un import normal (équivalent à un drag-and-drop)
-4. Si le **Mode Automatique** est actif, le pipeline complet (renommage + sous-titres + déplacement) se déclenche tout seul
+1. Le watcher disque (basé sur `notify` côté Rust) détecte l'événement.
+2. Un débouncage de **1.5 s** est appliqué, suivi d'une vérification automatisée de stabilité du fichier (vérifiant que la taille et les horodatages restent stables) afin d'éviter de lire un fichier encore en cours d'écriture.
+3. Les nouveaux chemins sont envoyés au Studio comme un import normal (équivalent à un drag-and-drop).
+4. Si le **Mode Automatique** est actif, le pipeline complet (renommage + sous-titres + déplacement) se déclenche tout seul.
 5. Une notification status confirme : *« 3 nouveau(x) fichier(s) détecté(s) dans "Downloads" — importés dans le Studio. »*
 
 ## Alternative pour les Serveurs Headless (NAS)
 
 Pour une surveillance continue sur un **NAS sans interface graphique (GUI)**, le watcher de l'application de bureau n'est pas adapté. 
 
-La solution officielle consiste à utiliser la CLI CineRename couplée à une tâche Cron :
+La solution officielle consiste à utiliser la CLI headless CineRename couplée à une tâche Cron ou à la commande intégrée `schedule` :
 
 1. Connectez-vous en SSH sur votre NAS.
 2. Éditez le fichier cron : `crontab -e`
 3. Ajoutez une ligne pour vérifier le dossier toutes les 5 minutes :
    ```bash
-   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --quiet
+   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --json >> /var/log/cinerename.log 2>&1
+   ```
+   Ou exécutez directement le planificateur autonome (par ex. dans Docker ou un service systemd) :
+   ```bash
+   cinerename schedule /mnt/Downloads --every 5m --to /mnt/Library --json
    ```
 
-Cette méthode est beaucoup plus robuste pour les serveurs 24/7, car elle lance le traitement à intervalles réguliers de manière silencieuse et autonome. Consultez [Ligne de commande (CLI)](/fr/cli) pour plus de détails.
+Cette méthode est beaucoup plus robuste pour les serveurs 24/7, car elle lance le traitement à intervalles réguliers de manière autonome. Consultez [Ligne de commande (CLI)](/fr/cli) pour plus de détails.
 
 ## Limitations
 

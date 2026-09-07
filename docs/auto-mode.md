@@ -31,7 +31,7 @@ In **Preferences → Automation**:
 
 ## Run the pipeline
 
-Three ways:
+Four ways:
 
 1. **From the Studio** — **Run pipeline** button on the loaded files.
 2. **From the CLI** — `cinerename auto /path --to /Plex/...` (see [CLI](/cli)).
@@ -78,12 +78,13 @@ If you watch a folder where torrents write during download (`*.part`, `.!ut`), p
 
 ## Logs And Support
 
-Pipeline events are written to the application logs:
+All pipeline and background events are recorded in the standard CineRename application logs:
 
-| OS | Path |
+| OS / Mode | Log Directory |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\logs\auto-pipeline.log` |
-| macOS | `~/Library/Application Support/CineRename/logs/auto-pipeline.log` |
-| Linux | `~/.config/CineRename/logs/auto-pipeline.log` |
+| Windows (Desktop) | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (Desktop) | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (Desktop) | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | Standard output / redirect via shell (e.g. `>> /var/log/cinerename.log 2>&1`) |
 
-Use **Preferences → Support → Copy Logs** to copy a precise time window when you report a problem. On CLI/headless runs, redirect stdout/stderr to your own log file if you want persistent server logs.
+In the desktop application, you can access logs directly via **Preferences → Support → Copy Logs** or **Show Logs Folder** to inspect recent activity or report an issue. On CLI/headless runs, redirect stdout/stderr to your desired persistent log destination.

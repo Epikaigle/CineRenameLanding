@@ -58,9 +58,9 @@ Il vous propose de garder la meilleure version. Aucune suppression sans validati
 
 ## CineRename peut-il fonctionner 100% hors-ligne ?
 
-Oui et non. L'application en elle-même (l'interface, le parsing intelligent des noms via QuickJS, l'historique, le nettoyage des doublons locaux) fonctionne sans connexion internet.
+Oui et non. L'application en elle-même (l'interface, le parsing natif en Rust des noms de fichiers, l'évaluation des modèles JavaScript via QuickJS, l'historique, le nettoyage des doublons locaux) fonctionne sans aucune connexion internet.
 
-Cependant, les fonctionnalités de correspondance (récupération des titres officiels, IDs et numéros d'épisodes) nécessitent d'interroger le fournisseur de métadonnées configuré. Sans internet, CineRename nettoiera le nom du fichier via son parseur interne, mais ne pourra pas garantir le titre officiel complet. Le téléchargement de sous-titres est, bien sûr, impossible hors-ligne.
+Cependant, les fonctionnalités de correspondance (récupération des titres officiels, IDs et numéros d'épisodes) nécessitent d'interroger le fournisseur de métadonnées configuré. Sans internet, CineRename nettoiera le nom du fichier via son parseur interne natif, mais ne pourra pas garantir le titre officiel complet. Le téléchargement de sous-titres est, bien sûr, impossible hors-ligne.
 
 ## Que se passe-t-il si TheTVDB / OpenSubtitles est down ?
 

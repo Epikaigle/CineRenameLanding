@@ -23,40 +23,49 @@ If multiple sources provide a key, CineRename uses the first one found according
 
 1. **Runtime environment variable**
    - `CINERENAME_TVDB_API_KEY`
+   - `CINERENAME_TVDB_SUBSCRIBER_PIN`
    - `CINERENAME_OPENSUBTITLES_API_KEY`
+   - `CINERENAME_OPENSUBTITLES_USERNAME`
+   - `CINERENAME_OPENSUBTITLES_PASSWORD`
+   - `CINERENAME_OPENSUBTITLES_USER_AGENT`
 2. **Override entered in Preferences → Sources and subtitles** (stored in the operating system secret vault/keyring when it is sensitive)
-3. **`providers.toml` file** in the local config folder
+3. **`providers.toml` file** inside `<config-dir>/providers/`
 4. **Default bundled key** compiled into the app
 
 ## Configure via the UI
 
 **Preferences → Sources and subtitles**:
 
-- TheTVDB: **API Key** field
+- TheTVDB: **API Key** and optional **Subscriber PIN**
 - OpenSubtitles: **API Key** field + credentials (username/password) if you have a premium account
 
 Sensitive values are stored with the system credential store/keyring when available, not in plain text in the local SQLite database. They never leave your machine except when sent to the provider they belong to.
 
 ## Configure via file
 
-Create (or edit) `providers.toml` in the config folder:
+Create (or edit) `providers.toml` inside the `providers/` subfolder of your configuration directory:
 
-| OS | Path |
+| OS / Mode | Path |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\providers.toml` |
-| macOS | `~/Library/Application Support/CineRename/providers.toml` |
-| Linux | `~/.config/CineRename/providers.toml` |
+| Windows (Desktop) | `%APPDATA%\com.cinerename.desktop\providers\providers.toml` |
+| macOS (Desktop) | `~/Library/Application Support/com.cinerename.desktop/providers/providers.toml` |
+| Linux (Desktop) | `~/.local/share/com.cinerename.desktop/providers/providers.toml` |
+| Headless / NAS (Linux) | `~/.config/cinerename/providers/providers.toml` |
 
 Format:
 
 ```toml
-[tvdb]
+[thetvdb]
+enabled = true
 api_key = "your-tvdb-key"
+subscriber_pin = "your-subscriber-pin"
 
 [opensubtitles]
+enabled = true
 api_key = "your-opensubtitles-key"
 username = "your-username"
 password = "your-password"
+user_agent = "CineRename"
 ```
 
 ## Custom build

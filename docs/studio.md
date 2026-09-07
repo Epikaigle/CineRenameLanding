@@ -35,23 +35,29 @@ Configure in **Preferences → Naming templates**. Each template has a **languag
 | **Tokens** | Simple substitution patterns: `{title} - S{season}E{episode} - {episode_title}` — covers 95% of cases. Includes a legacy-format importer for existing token-style patterns. |
 | **JavaScript** | Advanced patterns: ternaries, regex, closures, string manipulation. The embedded QuickJS engine is fast and sandboxed. See [JavaScript Templates](/templates). |
 
-Variables available in both modes:
+Variables available:
 
-| Variable | Description |
-| --- | --- |
-| `{title}` / `title` | Media title |
-| `{media_kind}` / `media_kind` | Type (`movie`, `episode` or `anime`) |
-| `{year}` / `year` | Release year |
-| `{season}` / `season` | Season number (zero-padded in tokens) |
-| `{episode}` / `episode` | Episode number (zero-padded in tokens) |
-| `{absolute_episode}` / `absolute_episode` | Absolute number (anime) |
-| `{episode_title}` / `episode_title` | Episode title |
-| `{resolution}` / `resolution` | Resolution (`1080p`, `4K`, `720p`...) |
-| `{source}` / `source` | Source (`BluRay`, `WEB-DL`, `HDTV`...) |
-| `{video_codec}` / `video_codec` | Video codec (`x265`, `HEVC`, `AV1`...) |
-| `{audio_codec}` / `audio_codec` | Audio codec (`DTS-HD`, `Atmos`...) |
-| `{dynamic_range}` / `dynamic_range` | Dynamic range (`HDR10`, `DV`...) |
-| `{bit_depth}` / `bit_depth` | Bit depth (`8bit`, `10bit`...) |
+| Tokens | JavaScript | Description |
+| --- | --- | --- |
+| `{title}` | `title` | Media title |
+| `{year}` | `year` | Release year |
+| `{season}` | `season` | Season number (zero-padded in tokens) |
+| `{episode}` | `episode` | Episode number (zero-padded in tokens) |
+| `{absolute_episode}` | `absolute_episode` | Absolute episode number (zero-padded in tokens) |
+| `{episode_title}` | `episode_title` | Episode title |
+| `{tmdb_id}` | `tmdb_id` | TMDb identifier |
+| `{tvdb_id}` | `tvdb_id` | TheTVDB identifier |
+| `{imdb_id}` | `imdb_id` | IMDb identifier |
+| `{plex}` | `plex` | Plex-standard naming |
+| `{plex.id}` | `plex_id` | Plex-standard naming with media ID |
+| `{resolution}` | `resolution` | Resolution (`1080p`, `2160p`, `720p`...) |
+| `{source}` | `source` | Source (`BluRay`, `WEB-DL`, `HDTV`...) |
+| `{video_codec}` | `video_codec` | Video codec (`x264`, `x265`, `AV1`...) |
+| `{audio_codec}` | `audio_codec` | Audio codec (`AAC`, `AC3`, `EAC3`, `DTS`...) |
+| `{audio_language}` | `audio_language` | Audio language (`fr`, `en`, `ja`...) |
+| `{dynamic_range}` | `dynamic_range` | Dynamic range (`SDR`, `HDR10`, `Dolby Vision`...) |
+| `{bit_depth}` | `bit_depth` | Bit depth (`8-bit`, `10-bit`...) |
+| — | `media_kind` | Media category in JS (`"movie"`, `"series"`, or `"anime"`) |
 
 ::: tip Plex friendly
 The default preset is calibrated for Plex and Jellyfin. If you change it, verify with your library scanner that the files are still recognized.

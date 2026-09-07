@@ -4,21 +4,28 @@ Everything that CineRename modifies on your disk is **traceable** and **reversib
 
 ## What is recorded
 
-For each operation (renaming, moving, duplicate deletion, subtitle download), CineRename records:
+For each rename batch executed in the Studio, CLI, or automation pipeline, CineRename records:
 
-- Precise **date and time**
-- **Type of operation** (rename / move / subtitle-fetch / duplicate-delete / auto-pipeline)
-- Full **Before / After** (source paths, target paths, size, optional hash)
-- **Status** (success / failure / canceled)
-- **Source** (Studio / automation pipeline / CLI)
+- Precise **date and time** (started, completed, undone)
+- **Batch status** (`running`, `applied`, `failed`, `undone`)
+- Full **Before / After** for each file (original path and name, renamed path and name, media kind)
+- Applied **rename template**
+- **Undo availability** and validation status
 
-Data is stored locally in an **SQLite** database (via `rusqlite` on the Rust side). No data is sent to the cloud.
+Data is stored locally in an **SQLite** database (via `rusqlite` in the Rust core). No data is sent to external servers or cloud services.
 
-## History tabs
+::: info What is not in History
+The SQLite History table specifically tracks rename and move batches. Subtitle downloads and duplicate deletions are independent actions not tracked as undoable rename batches.
+:::
 
-- **Today** — today's operations
-- **Recent** — last 7 days
-- **All** — full history (filterable by date, folder, type)
+## History view and organization
+
+The History screen presents a unified virtualized list grouped chronologically:
+
+- **Grouped by date** — sections for Today, Yesterday, and earlier dates
+- **Real-time search** — filter batches and entries by original or renamed filename/path
+- **Status filter** — display all batches, only restorable batches, undone batches, or failed runs
+- **Sorting** — toggle chronological order (newest or oldest first)
 
 ## Undo
 

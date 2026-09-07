@@ -43,16 +43,16 @@ En cada línea del clúster, el **clic derecho** abre:
 | --- | --- | --- |
 | Escanear el lote actual de Studio | <kbd>Ctrl</kbd> + <kbd>F</kbd> | <kbd>Cmd</kbd> + <kbd>F</kbd> |
 
-## Eliminación por lotes
+## Eliminación de duplicados
 
-Una vez que hayas tomado tus decisiones en todos los clústeres, el botón **Eliminar los marcados**:
+Cuando decides eliminar archivos candidatos:
 
-1. Pide una última confirmación
-2. Mueve los archivos a la papelera del sistema (recuperables)
-3. Registra la operación en el **Historial** (para poder deshacer)
+1. CineRename muestra un cuadro de diálogo de confirmación explícito (`¿Eliminar permanentemente este archivo? Esta acción no se puede deshacer.`).
+2. El archivo se elimina definitivamente del sistema de archivos (se desenlaza de forma atómica si no ha cambiado).
+3. **Operación irreversible**: los archivos no se envían a la papelera del sistema operativo y las eliminaciones de duplicados no se registran en el Historial de renombrado.
 
-::: warning Atención para los usuarios de NAS
-La eliminación pasa por la papelera del SO. Si la **Papelera de red (SMB/CIFS)** no está activada en tu Synology o QNAP, los archivos se eliminarán permanentemente. Asegúrate de activar la opción "Habilitar la papelera de reciclaje" en tu carpeta compartida de NAS antes de usar la eliminación masiva.
+::: warning Eliminación permanente
+Dado que la eliminación de candidatos duplicados desenlaza directamente el archivo del almacenamiento en lugar de usar la papelera del sistema, los archivos eliminados no se pueden recuperar de la papelera ni deshacer desde el Historial. Revisa siempre con atención tu selección antes de confirmar.
 :::
 
 ## Buenas prácticas

@@ -16,26 +16,30 @@ Puedes **pausar** una carpeta (el watcher se detiene pero la configuración se m
 
 Cuando un nuevo archivo multimedia (extensiones de video soportadas + subtítulos) aparece en una carpeta activa:
 
-1. El watcher de disco (basado en `notify` en el lado de Rust) detecta el evento
-2. Se aplica un debounce (retraso) de **1.5 s** — útil cuando un archivo aún está siendo escrito por un descargador
-3. Las nuevas rutas se envían al Studio como una importación normal (equivalente a arrastrar y soltar)
-4. Si el **Modo Automático** está activo, el pipeline completo (renombrado + subtítulos + movimiento) se desencadena por sí solo
+1. El watcher de disco (basado en `notify` en el lado de Rust) detecta el evento.
+2. Se aplica un debounce (retraso) de **1.5 s**, seguido de una comprobación automática de estabilidad del archivo (verificando que el tamaño y los sellos de tiempo permanezcan estables) para evitar leer un archivo que aún se está escribiendo.
+3. Las nuevas rutas se envían al Studio como una importación normal (equivalente a arrastrar y soltar).
+4. Si el **Modo Automático** está activo, el pipeline completo (renombrado + subtítulos + movimiento) se desencadena por sí solo.
 5. Una notificación de estado confirma: *«3 nuevo(s) archivo(s) detectado(s) en "Downloads" — importados al Studio.»*
 
 ## Alternativa para servidores Headless (NAS)
 
 Para una vigilancia continua en un **NAS sin interfaz gráfica (GUI)**, el watcher de la aplicación de escritorio no es adecuado. 
 
-La solución oficial consiste en utilizar la CLI de CineRename junto con una tarea Cron:
+La solución oficial consiste en utilizar la CLI headless de CineRename junto con una tarea Cron o el comando integrado `schedule`:
 
 1. Conéctate por SSH a tu NAS.
 2. Edita el archivo cron: `crontab -e`
 3. Añade una línea para revisar la carpeta cada 5 minutos:
    ```bash
-   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --quiet
+   */5 * * * * /usr/local/bin/cinerename auto /mnt/Downloads --to /mnt/Library --json >> /var/log/cinerename.log 2>&1
+   ```
+   O ejecuta el planificador daemon directamente (por ejemplo en Docker o un servicio systemd):
+   ```bash
+   cinerename schedule /mnt/Downloads --every 5m --to /mnt/Library --json
    ```
 
-Este método es mucho más robusto para servidores 24/7, ya que lanza el procesamiento a intervalos regulares de forma silenciosa y autónoma. Consulta [Línea de comandos (CLI)](/es/cli) para más detalles.
+Este método es mucho más robusto para servidores 24/7, ya que lanza el procesamiento a intervalos regulares de forma autónoma. Consulta [Línea de comandos (CLI)](/es/cli) para más detalles.
 
 ## Limitaciones
 

@@ -66,13 +66,14 @@ En CLI/headless, vuelve a ejecutar el comando y redirige la salida de terminal a
 
 ## ¿Dónde están mis datos?
 
-| OS | Carpeta de config | Logs |
+| Sistema / Modo | Datos de aplicación y config | Logs |
 | --- | --- | --- |
-| Windows | `%APPDATA%\CineRename\` | `%APPDATA%\CineRename\logs\` |
-| macOS | `~/Library/Application Support/CineRename/` | igual `/logs/` |
-| Linux | `~/.config/CineRename/` | igual `/logs/` |
+| Windows (Escritorio) | `%APPDATA%\com.cinerename.desktop\` | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (Escritorio) | `~/Library/Application Support/com.cinerename.desktop/` | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (Escritorio) | `~/.local/share/com.cinerename.desktop/` | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | `~/.config/cinerename/` | Salida estándar / redirección por shell |
 
-Puedes eliminar estas carpetas para empezar de cero (perderás el historial y los presets).
+En la aplicación de escritorio, puedes abrir directamente la carpeta de registros desde **Preferencias → Soporte → Mostrar carpeta de logs**. Puedes eliminar estas carpetas para comenzar desde cero (se borrará el historial local, la caché y los ajustes preestablecidos).
 
 ## No he encontrado mi respuesta
 

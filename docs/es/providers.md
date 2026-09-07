@@ -23,40 +23,49 @@ Si varias fuentes proporcionan una clave, CineRename utiliza la primera que encu
 
 1. **Variable de entorno en tiempo de ejecución**
    - `CINERENAME_TVDB_API_KEY`
+   - `CINERENAME_TVDB_SUBSCRIBER_PIN`
    - `CINERENAME_OPENSUBTITLES_API_KEY`
+   - `CINERENAME_OPENSUBTITLES_USERNAME`
+   - `CINERENAME_OPENSUBTITLES_PASSWORD`
+   - `CINERENAME_OPENSUBTITLES_USER_AGENT`
 2. **Valor introducido en Preferencias → Fuentes y subtítulos** (guardado en el almacén de secretos / llavero del sistema cuando es sensible)
-3. **Archivo `providers.toml`** en la carpeta de configuración local
+3. **Archivo `providers.toml`** en la subcarpeta `<config-dir>/providers/`
 4. **Clave incluida por defecto** compilada en la app
 
 ## Configurar a través de la UI
 
 **Preferencias → Fuentes y subtítulos**:
 
-- TheTVDB: campo **API Key**
+- TheTVDB: campo **API Key** y opcional **PIN de suscriptor**
 - OpenSubtitles: campo **API Key** + credenciales (usuario/contraseña) si tienes una cuenta premium
 
 Los valores sensibles se guardan con el almacén de credenciales / llavero del sistema cuando está disponible, no en texto claro en SQLite. Nunca salen de tu equipo salvo cuando se envían al proveedor correspondiente.
 
 ## Configurar a través de un archivo
 
-Crea (o edita) `providers.toml` en la carpeta de configuración:
+Crea (o edita) `providers.toml` dentro de la subcarpeta `providers/` de tu directorio de configuración:
 
-| OS | Ruta |
+| Sistema / Modo | Ruta |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\providers.toml` |
-| macOS | `~/Library/Application Support/CineRename/providers.toml` |
-| Linux | `~/.config/CineRename/providers.toml` |
+| Windows (Escritorio) | `%APPDATA%\com.cinerename.desktop\providers\providers.toml` |
+| macOS (Escritorio) | `~/Library/Application Support/com.cinerename.desktop/providers/providers.toml` |
+| Linux (Escritorio) | `~/.local/share/com.cinerename.desktop/providers/providers.toml` |
+| Headless / NAS (Linux) | `~/.config/cinerename/providers/providers.toml` |
 
 Formato:
 
 ```toml
-[tvdb]
+[thetvdb]
+enabled = true
 api_key = "tu-clave-tvdb"
+subscriber_pin = "tu-pin-suscriptor"
 
 [opensubtitles]
+enabled = true
 api_key = "tu-clave-opensubtitles"
 username = "tu-usuario"
 password = "tu-contraseña"
+user_agent = "CineRename"
 ```
 
 ## Build personalizado

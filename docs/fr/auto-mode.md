@@ -31,7 +31,7 @@ Dans **Préférences → Automation** :
 
 ## Lancer le pipeline
 
-Trois façons :
+Quatre façons :
 
 1. **Depuis le Studio** — bouton **Lancer le pipeline** sur les fichiers chargés.
 2. **Depuis le CLI** — `cinerename auto /chemin --to /Plex/...` (voir [CLI](/fr/cli)).
@@ -77,13 +77,13 @@ Si vous surveillez un dossier où les torrents écrivent en cours de download (`
 
 ## Logs et support
 
-Les événements du pipeline sont écrits dans les logs de l'application :
+Tous les événements du pipeline et de fond sont enregistrés dans les logs standards de CineRename :
 
-| OS | Chemin |
+| Système / Mode | Répertoire des logs |
 | --- | --- |
-| Windows | `%APPDATA%\CineRename\logs\auto-pipeline.log` |
-| macOS | `~/Library/Application Support/CineRename/logs/auto-pipeline.log` |
-| Linux | `~/.config/CineRename/logs/auto-pipeline.log` |
+| Windows (Bureau) | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (Bureau) | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (Bureau) | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | Sortie standard / redirection via le shell (ex. `>> /var/log/cinerename.log 2>&1`) |
 
-Utilisez **Préférences → Support → Copier les logs** pour copier une fenêtre de temps précise quand vous signalez un problème. En CLI/headless, redirigez stdout/stderr vers votre propre fichier de log si besoin.
-- **Quarantaine des incertains** — les éléments peu fiables restent en review au lieu d'être déplacés silencieusement.
+Dans l'application de bureau, vous pouvez y accéder directement via **Préférences → Support → Copier les logs** ou **Afficher le dossier des logs**. En CLI/headless, redirigez stdout/stderr vers votre propre fichier de log persistant si besoin.

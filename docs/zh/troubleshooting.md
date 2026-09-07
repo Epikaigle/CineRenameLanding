@@ -66,13 +66,14 @@ CLI/headless 用法可以重新运行命令，并把终端输出重定向到文�
 
 ## 我的数据存储在哪里？
 
-| 操作系统 | 配置文件夹 | 日志 |
+| 操作系统 / 模式 | 应用数据与配置 | 日志 |
 | --- | --- | --- |
-| Windows | `%APPDATA%\CineRename\` | `%APPDATA%\CineRename\logs\` |
-| macOS | `~/Library/Application Support/CineRename/` | 同上 `/logs/` |
-| Linux | `~/.config/CineRename/` | 同上 `/logs/` |
+| Windows (桌面版) | `%APPDATA%\com.cinerename.desktop\` | `%LOCALAPPDATA%\com.cinerename.desktop\logs\` |
+| macOS (桌面版) | `~/Library/Application Support/com.cinerename.desktop/` | `~/Library/Logs/com.cinerename.desktop/` |
+| Linux (桌面版) | `~/.local/share/com.cinerename.desktop/` | `~/.local/share/com.cinerename.desktop/logs/` |
+| Headless / NAS (Linux) | `~/.config/cinerename/` | 标准输出 / 终端重定向 |
 
-您可以删除这些文件夹以重新开始（会丢失历史记录和预设）。
+在桌面应用中，您可以通过 **偏好设置 → 支持 → 显示日志文件夹** 快速打开日志目录。您可以删除这些文件夹以重新初始化（将清空本地历史、缓存和预设）。
 
 ## 我没有找到我想要的答案
 

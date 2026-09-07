@@ -15,7 +15,9 @@ Simple substitution `{token}` → value. Covers the vast majority of cases.
 {title} [{resolution} {video_codec}]
 ```
 
-Available variables: `{title}`, `{year}`, `{season}`, `{episode}`, `{absolute_episode}`, `{episode_title}`, `{resolution}`, `{source}`, `{video_codec}`, `{audio_codec}`, `{dynamic_range}`, `{bit_depth}`.
+Available variables:
+- **Core tokens**: `{title}`, `{year}`, `{season}`, `{episode}`, `{absolute_episode}`, `{episode_title}`, `{tmdb_id}`, `{tvdb_id}`, `{imdb_id}`, `{plex}`, `{plex.id}`
+- **Advanced tokens**: `{resolution}`, `{source}`, `{video_codec}`, `{audio_codec}`, `{audio_language}`, `{dynamic_range}`, `{bit_depth}`
 
 ::: tip Import a legacy format
 The **Import legacy format** button converts common token-style patterns (`{n} ({y})/{n} - {s00e00} - {t}`) into a CineRename pattern. `${...}` blocks and custom conditionals are flagged for manual review, or can be rewritten in JavaScript mode.
@@ -36,10 +38,11 @@ The pattern is evaluated as a **JavaScript expression** in an embedded QuickJS s
 ```text
 title, year, season, episode, absolute_episode,
 episode_title, resolution, source, video_codec,
-audio_codec, dynamic_range, bit_depth, media_kind
+audio_codec, audio_language, dynamic_range, bit_depth,
+tmdb_id, tvdb_id, imdb_id, plex, plex_id, media_kind
 ```
 
-Numeric values (`year`, `season`, `episode`, `absolute_episode`, `bit_depth`) are **numbers**. The others are **strings** or `null` if not provided.
+Numeric values (`year`, `season`, `episode`, `absolute_episode`) are **numbers** (or `null`). `media_kind` is `"movie"`, `"series"`, or `"anime"`. The others (including `bit_depth`, e.g. `"10-bit"`) are **strings** or `null` if not provided.
 
 ### Typical variable values
 
@@ -121,10 +124,10 @@ For transformations that require global context (sequential numbering over a who
 | `{vf}` | `resolution` |
 | `{vc}` | `video_codec` |
 | `{ac}` | `audio_codec` |
-| `${audio.lang == 'fr' ? 'VF' : 'VO'}` | `(audio_codec === 'fr' ? 'VF' : 'VO')` ⚠️ Note: `audio_codec` is the codec, not the language — audio language is not exposed yet |
+| `${audio.lang == 'fr' ? 'VF' : 'VO'}` | `(audio_language === 'fr' ? 'VF' : 'VO')` |
 | `{n.replaceAll(/X/, 'Y')}` | `title.replace(/X/g, 'Y')` |
 | `{n.startsWith('The ') ? n.replaceFirst('^The ', '') + ', The' : n}` | `title.startsWith('The ') ? title.replace(/^The /, '') + ', The' : title` |
 
 ::: warning Unexposed symbols
-Some media fields (audio language, bitrate, framerate, audio channels) are not yet exposed to the CineRename JS sandbox. If you need them, contact us by email — they can be added to `RenameTemplateContext`.
+Some technical media fields (overall bitrate, framerate, audio channels) are not yet exposed to the CineRename JS sandbox. If you need them, contact us by email — they can be added to `RenameTemplateContext`.
 :::

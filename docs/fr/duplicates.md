@@ -43,16 +43,16 @@ Sur chaque ligne du cluster, **clic droit** ouvre :
 | --- | --- | --- |
 | Scanner le lot Studio courant | <kbd>Ctrl</kbd> + <kbd>F</kbd> | <kbd>Cmd</kbd> + <kbd>F</kbd> |
 
-## Suppression par lot
+## Suppression des doublons
 
-Une fois vos décisions prises sur tous les clusters, le bouton **Supprimer les marqués** :
+Lorsque vous choisissez de supprimer des fichiers candidats :
 
-1. Demande une dernière confirmation
-2. Déplace les fichiers dans la corbeille système (récupérables)
-3. Enregistre l'opération dans l'**Historique** (pour annuler)
+1. CineRename affiche une boîte de dialogue de confirmation explicite (`Supprimer définitivement ce fichier ? Cette action est irréversible.`).
+2. Le fichier est définitivement supprimé du système de fichiers (délié atomiquement s'il est inchangé).
+3. **Opération irréversible** : les fichiers ne vont pas dans la corbeille du système et les suppressions de doublons ne sont pas consignées dans l'Historique de renommage.
 
-::: warning Attention pour les utilisateurs NAS
-La suppression passe par la corbeille de l'OS. Si la **Corbeille réseau (SMB/CIFS)** n'est pas activée sur votre Synology ou QNAP, les fichiers seront supprimés définitivement. Assurez-vous d'activer l'option "Activer la corbeille" sur votre dossier partagé NAS avant d'utiliser la suppression en masse.
+::: warning Suppression définitive
+Comme la suppression de doublons délie directement le fichier du stockage au lieu de le déplacer dans la corbeille du système d'exploitation, les fichiers supprimés ne peuvent être récupérés depuis la corbeille ni annulés depuis l'Historique. Vérifiez toujours soigneusement votre sélection avant de confirmer.
 :::
 
 ## Bonnes pratiques
